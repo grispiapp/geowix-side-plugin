@@ -4,6 +4,10 @@ export class HttpHandler {
     "Content-Type": "application/json",
   };
 
+  setBaseUrl(baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
+
   async send<T>(url: string, options: RequestInit): Promise<T | null> {
     const response = await fetch(`${this.baseUrl}/${url}`, {
       ...options,

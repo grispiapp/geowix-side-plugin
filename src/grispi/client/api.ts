@@ -12,6 +12,10 @@ export class GrispiAPI {
     this.authentication = new Authentication(this.httpHandler);
     this.tickets = new Tickets(this.httpHandler, this.authentication);
   }
+
+  http() {
+    return this.httpHandler;
+  }
 }
 
 export const grispiAPI = new GrispiAPI();

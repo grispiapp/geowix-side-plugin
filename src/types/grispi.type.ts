@@ -6,16 +6,30 @@ export interface Settings
     string | number | string[] | number[] | boolean[] | boolean | Settings
   > {}
 
-export interface GrispiBundle {
+export type GrispiBundle = {
   settings: Settings;
   context: Context;
-}
+};
 
-interface Context {
+type Context = {
   username: string;
   tenantId: string;
   token: string;
   ticketKey: string;
   agent: Agent;
   requester: Requester;
-}
+};
+
+export type JwtToken = {
+  aud: string;
+  sub: string;
+  xid: number;
+  fnm: string;
+  dev: boolean;
+  roles: string[];
+  iss: string;
+  plg: string;
+  exp: number;
+  iat: number;
+  jti: string;
+};

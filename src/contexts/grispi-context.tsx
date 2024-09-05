@@ -8,6 +8,7 @@ import React, {
 
 import { grispiAPI } from "@/grispi/client/api";
 import { Ticket } from "@/grispi/client/tickets/tickets.type";
+import { parseJwt } from "@/lib/utils";
 import { GrispiBundle } from "@/types/grispi.type";
 
 type GrispiContextType = {
@@ -36,6 +37,10 @@ export const GrispiProvider: React.FC<{
         return;
       }
 
+      if (parseJwt(bundle.context.token)?.dev === true) {
+        grispiAPI.http().setBaseUrl("https://api.grispi.net");
+      }
+
       grispiAPI.authentication.setTenantId(bundle.context.tenantId);
       grispiAPI.authentication.setToken(bundle.context.token);
 
@@ -51,8 +56,8 @@ export const GrispiProvider: React.FC<{
       setLoading(true);
 
       try {
-        const response = await grispiAPI.tickets.getTicket(ticketKey);
-        setTicket(response);
+        const ticket = await grispiAPI.tickets.getTicket(ticketKey);
+        setTicket(ticket);
       } catch (err) {
         console.error(
           "grispi-context",
