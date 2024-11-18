@@ -95,8 +95,8 @@ export const SearchOrderScreen = observer(() => {
       <ScreenContent className="flex-1 overflow-y-auto p-4">
         {error && (
           <div className="mb-4 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
-            <div className="flex items-center gap-2">
-              <ExclamationTriangleIcon className="h-4 w-4" />
+            <div className="flex items-center gap-3">
+              <ExclamationTriangleIcon className="h-4 w-4 shrink-0" />
               <span>{error}</span>
             </div>
           </div>
