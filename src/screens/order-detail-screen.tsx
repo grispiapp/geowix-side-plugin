@@ -27,6 +27,7 @@ export const OrderDetailScreen = observer(() => {
     setSelectedOrderCode,
     setShipmentTrackingDetail,
   } = useStore().order;
+  const { setScreen } = useStore().screen;
   const { bundle, ticket } = useGrispi();
 
   const [loading, setLoading] = useState<boolean>(true);
@@ -165,44 +166,61 @@ export const OrderDetailScreen = observer(() => {
     }
   };
 
+  const handleBack = () => {
+    if (ticket && orders.length === 1) {
+      setScreen("orders");
+      setSelectedOrderCode(null);
+      return;
+    }
+
+    if (!ticket && orders.length === 1) {
+      setScreen("search-order");
+      return;
+    }
+
+    setScreen("orders");
+  };
+
   return (
     <Screen>
-      <ScreenHeader
-        onBack={
-          orders.length === 1 ? undefined : () => setSelectedOrderCode(null)
-        }
-      >
+      <ScreenHeader onBack={handleBack}>
         <ScreenTitle>{selectedOrder?.company_name}</ScreenTitle>
       </ScreenHeader>
       <ScreenContent>
         {loading && <LoadingWrapper />}
         {!loading && (
           <div className="my-2 space-y-2">
-            <div className="space-y-3 bg-white p-3 shadow">
-              <div className="text-sm text-muted-foreground">
-                Aşağıdaki bilgileri Grispi'ye gönderebilirsiniz.
+            {ticket && (
+              <div className="space-y-3 bg-white p-3 shadow">
+                <div className="text-sm text-muted-foreground">
+                  Aşağıdaki bilgileri Grispi'ye gönderebilirsiniz.
+                </div>
+                <ul className="text-sm text-gray-400">
+                  {syncInformations.map((info) => (
+                    <li
+                      key={info.title}
+                      className={cn("flex items-center gap-1", {
+                        "text-green-500": info.exists,
+                      })}
+                    >
+                      {info.exists ? (
+                        <CheckCircledIcon />
+                      ) : (
+                        <CrossCircledIcon />
+                      )}
+                      <span>{info.title}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Button
+                  size="sm"
+                  onClick={handleSyncWithGrispi}
+                  disabled={syncLoading}
+                >
+                  Grispi'ye Gönder
+                </Button>
               </div>
-              <ul className="text-sm text-gray-400">
-                {syncInformations.map((info) => (
-                  <li
-                    key={info.title}
-                    className={cn("flex items-center gap-1", {
-                      "text-green-500": info.exists,
-                    })}
-                  >
-                    {info.exists ? <CheckCircledIcon /> : <CrossCircledIcon />}
-                    <span>{info.title}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button
-                size="sm"
-                onClick={handleSyncWithGrispi}
-                disabled={syncLoading}
-              >
-                Grispi'ye Gönder
-              </Button>
-            </div>
+            )}
             <div className="space-y-1 bg-white p-3 shadow">
               <h3 className="text-xs font-medium text-muted-foreground">
                 Gönderici
@@ -265,12 +283,15 @@ export const OrderDetailScreen = observer(() => {
                           </span>
                         </div>
                         <div className="flex flex-col text-xs">
-                          <span>{log.location_phone}</span>
-                          {log.undelivered_reason && (
-                            <span className="text-destructive">
-                              {log.undelivered_reason}
-                            </span>
+                          {log.location_phone !== "2162323088" && (
+                            <span>{log.location_phone}</span>
                           )}
+                          {log.undelivered_reason &&
+                            log.shipment_status_code !== "7" && (
+                              <span className="text-destructive">
+                                {log.undelivered_reason}
+                              </span>
+                            )}
                           {log.notes && <span>{log.notes}</span>}
                         </div>
                       </div>
