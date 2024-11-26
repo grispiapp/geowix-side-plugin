@@ -17,9 +17,13 @@ type GrispiContextType = {
   loading: boolean;
 };
 
-const GrispiContext = createContext<GrispiContextType | null>(null);
+if (!window.Grispi) {
+  throw new Error("Grispi SDK not found.");
+}
 
 const plugin = window.Grispi.instance();
+
+const GrispiContext = createContext<GrispiContextType | null>(null);
 
 export const GrispiProvider: React.FC<{
   children: ReactNode;

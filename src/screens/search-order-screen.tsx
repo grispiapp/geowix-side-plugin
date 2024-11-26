@@ -89,7 +89,7 @@ export const SearchOrderScreen = observer(() => {
 
   return (
     <Screen className="flex h-full flex-col bg-background">
-      <ScreenHeader>
+      <ScreenHeader onBack={() => setScreen("orders")}>
         <ScreenTitle>Kargo Ara</ScreenTitle>
       </ScreenHeader>
       <ScreenContent className="flex-1 overflow-y-auto p-4">

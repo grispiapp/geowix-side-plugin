@@ -30,24 +30,22 @@ export const OrdersScreen = observer(() => {
       </ScreenHeader>
       <ScreenContent className="space-y-3 p-6">
         {isLoading && <LoadingWrapper />}
-        {!isLoading && !error && (
-          <>
-            {!ticket && (
-              <Button
-                className="mb-4 w-full"
-                onClick={() => {
-                  setScreen("search-order");
-                }}
-              >
-                <MagnifyingGlassIcon className="mr-2 h-4 w-4" />
-                <span>Sipariş Bul</span>
-              </Button>
-            )}
-            {orders?.map((order) => (
-              <OrderItem key={order.order_code} order={order} />
-            ))}
-          </>
+        {!isLoading && (
+          <Button
+            className="mb-4 w-full"
+            onClick={() => {
+              setScreen("search-order");
+            }}
+          >
+            <MagnifyingGlassIcon className="mr-2 h-4 w-4" />
+            <span>Sipariş Bul</span>
+          </Button>
         )}
+        {!isLoading &&
+          !error &&
+          orders?.map((order) => (
+            <OrderItem key={order.order_code} order={order} />
+          ))}
         {!isLoading && error && (
           <div className="mb-4 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
             <div className="flex items-center gap-3">
