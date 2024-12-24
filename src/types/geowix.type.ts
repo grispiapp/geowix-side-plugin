@@ -31,7 +31,7 @@ export type ShipmentTrackingResponse = {
   receiver_latitude: string;
   receiver_longitude: string;
   logs: ShipmentLog[];
-  file: any[];
+  files: File[];
 };
 
 export type ShipmentLog = {
@@ -73,4 +73,10 @@ export type Order = {
   order_code: string;
   tracking_code: string;
   date: string;
+};
+
+type File = {
+  file: string;
+  create_date: string;
+  create_user: string;
 };

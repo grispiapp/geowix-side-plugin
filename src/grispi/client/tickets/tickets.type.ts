@@ -114,9 +114,18 @@ export type Requester = {
   phone?: string;
 };
 
+export type SetFieldPayload = {
+  key: string;
+  value: string | boolean | number;
+};
+
+export type UpdateCommentPayload = {
+  body: string;
+  publicVisible: boolean;
+  creator: SetFieldPayload[];
+};
+
 export type UpdateTicketPayload = {
-  fields: Array<{
-    key: string;
-    value: string | boolean | number;
-  }>;
+  fields?: SetFieldPayload[];
+  comment?: UpdateCommentPayload;
 };
