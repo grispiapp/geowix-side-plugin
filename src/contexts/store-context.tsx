@@ -4,13 +4,13 @@ import { RootStore } from "@/store/root-store";
 
 const StoreContext = createContext<RootStore | null>(null);
 
+const rootStore = new RootStore();
+
 export const StoreProvider: React.FC<{
   children: ReactNode;
 }> = ({ children }) => {
-  const store = new RootStore();
-
   return (
-    <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
+    <StoreContext.Provider value={rootStore}>{children}</StoreContext.Provider>
   );
 };
 

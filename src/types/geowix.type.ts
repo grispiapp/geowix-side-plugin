@@ -32,6 +32,7 @@ export type ShipmentTrackingResponse = {
   receiver_longitude: string;
   logs: ShipmentLog[];
   files: File[];
+  call_logs: CallLog[];
 };
 
 export type ShipmentLog = {
@@ -79,4 +80,16 @@ type File = {
   file: string;
   create_date: string;
   create_user: string;
+};
+
+export type CallLog = {
+  call_log_id: number;
+  from: string;
+  to: string;
+  calldate: string;
+  str_calldate: string;
+  duration: number;
+  disposition: string;
+  record: boolean;
+  record_url: string;
 };

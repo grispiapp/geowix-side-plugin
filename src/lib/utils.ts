@@ -1,5 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
-import { formatDistance as baseFormatDistance } from "date-fns";
+import { formatDistance as baseFormatDistance, format } from "date-fns";
 import { tr } from "date-fns/locale";
 import { twMerge } from "tailwind-merge";
 
@@ -31,3 +31,8 @@ export function parseJwt(token: string) {
 
   return JSON.parse(jsonPayload) as JwtToken;
 }
+
+export const formatCallDate = (dateString: string) => {
+  const timestamp = parseInt(dateString.match(/\d+/)?.[0] ?? "0");
+  return format(new Date(timestamp), "dd.MM.yyyy HH:mm");
+};

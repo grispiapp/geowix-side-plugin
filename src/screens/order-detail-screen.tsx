@@ -1,18 +1,23 @@
-import { observer } from "mobx-react-lite";
-import { CustomerInfo } from "@/components/customer-info";
-import { TrackingTimeline } from "@/components/tracking-timeline";
-import { SyncSection } from "@/components/sync-section";
 import { useOrderDetail } from "../hooks/use-order-detail";
+import { observer } from "mobx-react-lite";
+import { useState } from "react";
 
+import { CallLogs } from "@/components/call-logs";
+import { CustomerInfo } from "@/components/customer-info";
+import { LoadingWrapper } from "@/components/loading-wrapper";
+import { SyncSection } from "@/components/sync-section";
+import { TrackingTimeline } from "@/components/tracking-timeline";
 import {
   Screen,
   ScreenContent,
   ScreenHeader,
   ScreenTitle,
 } from "@/components/ui/screen";
-import { LoadingWrapper } from "@/components/loading-wrapper";
+import { AudioProvider } from "@/contexts/audio-context";
 
 export const OrderDetailScreen = observer(() => {
+  const [currentAudioId, setCurrentAudioId] = useState<number | null>(null);
+
   const {
     loading,
     selectedOrder,
@@ -54,6 +59,14 @@ export const OrderDetailScreen = observer(() => {
             />
 
             <TrackingTimeline logs={sortedLogs} />
+
+            <AudioProvider currentAudioId={currentAudioId}>
+              <CallLogs
+                currentAudioId={currentAudioId}
+                setCurrentAudioId={setCurrentAudioId}
+                logs={shipmentTrackingDetail?.call_logs ?? []}
+              />
+            </AudioProvider>
           </div>
         )}
       </ScreenContent>
